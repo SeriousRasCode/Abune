@@ -164,6 +164,7 @@ class _MyAppState extends State<MyApp> {
               backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
               title: const Text('አቡነ ዘበሰማያት'),
               actions: [
+
                 // 🌙 Day/Night Mode Button
                 IconButton(
                   icon: Icon(
@@ -175,6 +176,19 @@ class _MyAppState extends State<MyApp> {
                   onPressed: _toggleTheme,
                   tooltip: 'Toggle Day/Night Mode',
                 ),
+                  IconButton(
+                    onPressed: () {
+                      showAboutDialog(
+                        context: context,
+                        children: [
+                          Text('Made in ❤️ by Tedros Teshome'),
+                        ],
+                        applicationName: 'አቡነ ዘበሰማያት',
+                        applicationVersion: '1.0.0',
+                        applicationIcon: const Icon(Icons.menu_book),
+                      );
+                    },
+                   icon: Icon(Icons.info_outline,))
               ],
             ),
 
@@ -185,129 +199,225 @@ class _MyAppState extends State<MyApp> {
                 child: Center(
                   child: FractionallySizedBox(
                     widthFactor: 1.0,
-                    child: Material(
-                      child: RichText(
-                        textAlign: TextAlign.justify,
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style.copyWith(
-                            fontSize: 16.0,
-                            height: 1.5,
-                            fontFamily: 'MyCustomFont',
-                            color: currentBodyTextColor,
+                    child: Padding(
+                      padding: const EdgeInsetsGeometry.only(
+                        top: 5.0,
+                        bottom: 5.0,
+                      ),
+                      child: Material(
+                        child: RichText(
+                          textAlign: TextAlign.justify,
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style.copyWith(
+                              fontSize: 16.0,
+                              height: 1.5,
+                              fontFamily: 'MyCustomFont',
+                              color: currentBodyTextColor,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: "በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\n\nአቡነ ዘበሰማያት በግዕዝ",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.red,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                      
+                              TextSpan(
+                                text:
+                                    "\nአቡነ ዘበሰማያት ይትቀደስ ስምከ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nትምፃእ መንግሥትከ ፣ ወይኩን ፈቃድከ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "\nበከመ በሰማይ ፣ ከማሁ በምድር",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "\nሲሳየነ ፣ ዘለለ ዕለትነ ፣ ሃበነ ዮም",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nኅድግ ለነ ፣ አበሳነ ወጌጋየነ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nከመ ንሕነኒ ንኅድግ ለዘአበሰ ለነ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nኢታብአነ እግዚኦ ውስተ መንሱት",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nኣላ አድኅነነ ወባልሐነ ፣ እምኩሉ እኩይ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nእስመ ዚኣከ ፣ ይእቲ መንግሥት",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nኃይል ወስብሐት ፣ ለዓለመ ዓለም ፣ አሜን",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                      
+                              // Beselame Gebriel
+                      
+                              TextSpan(
+                                text: "\n\nበሰላም ቅዱስ ገብርኤል መልአክ",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.red,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "\nበሰላመ ቅዱስ ገብርኤል መልአክ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nኦ እግዝእትየ ማርያም ሰላም ለኪ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nድንግል በኅሊናኪ ፣ ወድንግል በሥጋኪ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\nእመ እግዚአብሔር ጸባዖት ሰላም ለኪ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "\nቡርክት አንቲ እምአንስት",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "\nወቡሩክ ፍሬ ከርሥኪ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              
+                              TextSpan(
+                               
+                                text:
+                                    "\nተፈሥሒ ፍሥሕት ኦ ምልእተ ጸጋ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "\nእግዚአብሔር ምስሌኪ ፣ ሰአሊ ወጸልዪ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "\nምሕረት በእንቲኣነ ፣ ኀበ ፍቁር ወልድኪ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "\nኢየሱስ ክርስቶስ ፣ ከመ ይሥረይ ለነ ኃጣውኢነ",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: currentBodyTextColor,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ],
                           ),
-                          children: [
-                            TextSpan(
-                              text: "በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "\n\nአቡነ ዘበሰማያት በግዕዝ",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.red,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-
-                            TextSpan(
-                              text:
-                                  "\nአቡነ ዘበሰማያት ይትቀደስ ስምከ ትምጻእ መንግሥትከ ወይኩን ፈቃድከ በከመ በሰማይ ከማሁ በምድር",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "\nሲሳየነ ዘለለ ዕለትነ ሃበነ ዮም",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text:
-                                  "\nኅድግ ለነ አበሳነ ወጌጋየነ ከመ ንሕነኒ ንኅድግ ለዘ አበሰ ለነ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text:
-                                  "\nኢትብአነ እግዚኦ ውስተ መንሱት አላ አድኅነነ ወባልሐነ እምኲሉ እኩይ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "\nእስመ ዚኣከ ይእቲ መንግሥት ኃይል ወስብሐት ለዓለመ ዓለም።",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "\n\nበሰላም ቅዱስ ገብርኤል መልአክ",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.red,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text:
-                                  "\nበሰላመ ቅዱስ ገብርኤል መልአክ ኦ እግዚእትየ ማርያም ሰላም ለኪ ድንግል በህሊናኪ ወድንግል በስጋኪ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "\nእመ እግኢአብሔር ጸባዖት ሰላም ለኪ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "\nቡርክት አንቲ እምአንስት ወቡሩክ ፍሬ ከረስኪ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "\nተፈሥሒ ፍስሕት ኦ ምልእተ ጸጋ እግዚአብሔር ምስሌኪ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            TextSpan(
-                              text:
-                                  "\nሰአሊ ወጸልዪ ምሕረተ ኀበ ፍቁር ወልድኪ ኢየሱስ ክርስቶስ ከመ ይስረይ ለነ ኃጣውኢነ ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: currentBodyTextColor,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
