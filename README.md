@@ -1,6 +1,5 @@
 # abune
-
-A new Flutter project.
+Geez prayer of Abune Zebesemayat and Beselame Gebriel
 
 ## Getting Started
 
