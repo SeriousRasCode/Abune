@@ -29,10 +29,12 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Line 1 of 11'), findsOneWidget);
+    await tester.ensureVisible(find.text('Hide line'));
     await tester.tap(find.text('Hide line'));
     await tester.pumpAndSettle();
     expect(find.text('Recite from memory'), findsOneWidget);
 
+    await tester.ensureVisible(find.text('Reveal line'));
     await tester.tap(find.text('Reveal line'));
     await tester.pumpAndSettle();
     expect(find.text('በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን'),
