@@ -27,6 +27,12 @@ For an Android build, run `flutter build apk --debug`. The app's prayer text is 
 
 The [Android build workflow](.github/workflows/android.yml) runs on pull requests, pushes to `main`, and manual dispatch. It runs Flutter analysis, widget tests, and an Android build. Signed APKs are uploaded only from `main` or manual runs, after checks pass. Open an issue for a proposed change, create a branch from `main`, keep commits focused by file or purpose, and open a pull request for review. Check the workflow result before merging.
 
-## Credits and licensing
+## Creator
 
-The app's About dialog credits Tedros Teshome. The repository does not currently include a license file; ask the repository owner before reusing its source, recording, or font outside this project.
+Created by Tedros Teshome.
+
+## License
+
+The source code and documentation are available under the [MIT License](LICENSE). It permits use, modification, and redistribution with the copyright and license notice included.
+
+The bundled `fonts/Benaiah.ttf` is a third-party font. Its publisher [announced it as freely available](https://t.me/s/Type_Habesha?before=977), but the font is not covered by this project's MIT license. Check the publisher's terms before redistributing the font separately. The recording in `assets/audio/abune_tselot.mp3` is also excluded from the MIT license until its rights are confirmed.
