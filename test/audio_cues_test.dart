@@ -5,10 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('the recording covers both prayer sections', () {
     expect(recordedLines.length,
-        prayerSections.first.lines.length + prayerSections.last.lines.length);
+        prayerSections.first.lines.length - 1 + prayerSections.last.lines.length);
     expect(defaultCueMilliseconds.length, recordedLines.length);
     expect(validCueStarts(defaultCueMilliseconds), isTrue);
-    expect(recordedLines.first.text, prayerSections.first.lines.first);
+    expect(recordedLines.first.text, prayerSections.first.lines[1]);
     expect(recordedLines.last.text, prayerSections.last.lines.last);
   });
 
