@@ -40,17 +40,17 @@ class _PracticeScreenState extends State<PracticeScreen> {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
       children: [
-        Text('MEMORISE',
+        Text('PRACTICE',
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: scheme.secondary,
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.bold,
                 )),
         const SizedBox(height: 8),
-        Text('One line at a time',
+        Text('Learn each line',
             style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 6),
-        const Text('Read a line, hide it, recite it, then reveal to check.'),
+        const Text('Read a line. Hide it, say it from memory, then reveal it to check.'),
         const SizedBox(height: 18),
         Wrap(
           spacing: 8,
