@@ -55,7 +55,7 @@ class _AudioPlayerBarState extends State<AudioPlayerBar> {
                   children: [
                     const Icon(Icons.graphic_eq, size: 20),
                     const SizedBox(width: 8),
-                    const Expanded(child: Text('Prayer audio')),
+                    const Expanded(child: Text('Prayer recording')),
                     IconButton(
                       tooltip: playing ? 'Pause audio' : 'Play audio',
                       onPressed: ready
