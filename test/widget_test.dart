@@ -13,6 +13,23 @@ void main() {
     expect(find.textContaining('I built this Flutter app'), findsOneWidget);
   });
 
+  testWidgets('opens privacy and terms from About', (tester) async {
+    await tester.pumpWidget(const AbuneApp());
+    await tester.tap(find.byTooltip('About'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Privacy Policy'));
+    await tester.pumpAndSettle();
+    expect(find.text('Data in the app'), findsOneWidget);
+    expect(find.textContaining('tedroszion@gmail.com'), findsWidgets);
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Terms of Use'));
+    await tester.pumpAndSettle();
+    expect(find.text('Content and rights'), findsOneWidget);
+  });
+
   testWidgets('switches the theme', (tester) async {
     await tester.pumpWidget(const AbuneApp());
     final startsLight = find.byIcon(Icons.dark_mode).evaluate().isNotEmpty;
