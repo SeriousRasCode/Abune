@@ -4,15 +4,15 @@ A Flutter prayer reader for **Abune Zebesemayat** and **Beselame Gebriel**. The 
 
 ## Platforms and requirements
 
-The repository contains Android and iOS Flutter projects. GitHub Actions builds an Android debug APK; an iOS build is not currently automated. To develop locally, install a Flutter SDK compatible with the Dart constraint in [`pubspec.yaml`](pubspec.yaml) and the platform toolchain for your target device. Local Flutter or Java installation is not needed to download the APK produced by GitHub Actions.
+The repository contains Android and iOS Flutter projects. GitHub Actions checks Android builds on pull requests and publishes a signed Android release APK after a successful push to `main` or manual workflow run. An iOS build is not currently automated. To develop locally, install a Flutter SDK compatible with the Dart constraint in [`pubspec.yaml`](pubspec.yaml) and the platform toolchain for your target device. Local Flutter or Java installation is not needed to download the APK produced by GitHub Actions.
 
 ## Get the app
 
-1. Open the latest successful **Android build** run on the repository's **Actions** tab.
-2. Download the `abune-android-debug` artifact and extract the APK.
+1. Open the latest successful **Android build** run for `main` on the repository's **Actions** tab.
+2. Download the `abune-android-release` artifact and extract the APK.
 3. Install the APK on an Android device that permits installs from your chosen source.
 
-This is a debug build for testing, not a signed store release.
+The release APK is signed with the persistent key held in the GitHub `release` environment. Each workflow run uses a higher Android version code so later release APKs can update an installed release APK. A debug APK signed with a different key requires a one-time uninstall before switching to this release build.
 
 ## Develop
 
@@ -25,7 +25,7 @@ For an Android build, run `flutter build apk --debug`. The app's prayer text is 
 
 ## Checks and contributions
 
-The [Android build workflow](.github/workflows/android.yml) runs on pull requests, pushes to `main`, and manual dispatch. It runs Flutter analysis and creates a downloadable APK. Open an issue for a proposed change, create a branch from `main`, keep commits focused by file or purpose, and open a pull request for review. Check the workflow result before merging.
+The [Android build workflow](.github/workflows/android.yml) runs on pull requests, pushes to `main`, and manual dispatch. It runs Flutter analysis, widget tests, and an Android build. Signed APKs are uploaded only from `main` or manual runs, after checks pass. Open an issue for a proposed change, create a branch from `main`, keep commits focused by file or purpose, and open a pull request for review. Check the workflow result before merging.
 
 ## Credits and licensing
 
