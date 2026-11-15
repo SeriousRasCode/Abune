@@ -11,7 +11,7 @@ abstract interface class CueStore {
 class LocalCueStore implements CueStore {
   LocalCueStore() : _prefs = SharedPreferencesAsync();
 
-  static const _key = 'prayer_audio_cues_v2';
+  static const _key = 'prayer_audio_cues_v3';
   final SharedPreferencesAsync _prefs;
 
   @override
