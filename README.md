@@ -46,6 +46,10 @@ The workflow caches the Flutter SDK, Dart packages, Gradle downloads, and the re
 
 Created by Tedros Teshome.
 
+## Privacy and terms
+
+The app links to its Privacy Policy and Terms of Use from **About**. Public copies are in [`docs/privacy.html`](docs/privacy.html) and [`docs/terms.html`](docs/terms.html). Privacy questions can be sent to tedroszion@gmail.com. See the [Google Play preparation checklist](docs/PLAY_STORE.md) before submitting the app to Play Console.
+
 ## License
 
 The source code and documentation are available under the [MIT License](LICENSE). It permits use, modification, and redistribution with the copyright and license notice included.
