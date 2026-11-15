@@ -1,10 +1,13 @@
 import 'package:abune/app/abune_app.dart';
+import 'package:abune/services/cue_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  Widget app() => AbuneApp(cueStore: _MemoryCueStore());
+
   testWidgets('opens the About dialog with creator credit', (tester) async {
-    await tester.pumpWidget(const AbuneApp());
+    await tester.pumpWidget(app());
     await tester.tap(find.byTooltip('About'));
     await tester.pumpAndSettle();
 
@@ -14,7 +17,7 @@ void main() {
   });
 
   testWidgets('opens privacy and terms from About', (tester) async {
-    await tester.pumpWidget(const AbuneApp());
+    await tester.pumpWidget(app());
     await tester.tap(find.byTooltip('About'));
     await tester.pumpAndSettle();
 
@@ -31,7 +34,7 @@ void main() {
   });
 
   testWidgets('switches the theme', (tester) async {
-    await tester.pumpWidget(const AbuneApp());
+    await tester.pumpWidget(app());
     final startsLight = find.byIcon(Icons.dark_mode).evaluate().isNotEmpty;
     await tester.tap(find.byTooltip('Toggle Day/Night Mode'));
     await tester.pumpAndSettle();
@@ -41,7 +44,7 @@ void main() {
   });
 
   testWidgets('opens follow-along for both prayers', (tester) async {
-    await tester.pumpWidget(const AbuneApp());
+    await tester.pumpWidget(app());
     await tester.tap(find.text('Listen'));
     await tester.pumpAndSettle();
 
@@ -51,7 +54,7 @@ void main() {
   });
 
   testWidgets('practice hides, reveals, and tracks a line', (tester) async {
-    await tester.pumpWidget(const AbuneApp());
+    await tester.pumpWidget(app());
     await tester.tap(find.text('Practice').last);
     await tester.pumpAndSettle();
 
@@ -78,4 +81,21 @@ void main() {
     expect(find.text('Line 2 of 11'), findsOneWidget);
     expect(find.text('Recite from memory'), findsOneWidget);
   });
+}
+
+class _MemoryCueStore implements CueStore {
+  List<int>? _saved;
+
+  @override
+  Future<List<int>?> load() async => _saved;
+
+  @override
+  Future<void> save(List<int> milliseconds) async {
+    _saved = List.of(milliseconds);
+  }
+
+  @override
+  Future<void> clear() async {
+    _saved = null;
+  }
 }
