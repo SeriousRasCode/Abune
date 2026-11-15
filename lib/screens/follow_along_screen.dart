@@ -96,7 +96,7 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
         _customTiming = false;
         _settingTiming = false;
       });
-      _message('Using estimated timing again.');
+      _message('Using the recording timing again.');
     } catch (_) {
       _message('Could not reset line timing.');
     }
@@ -132,7 +132,7 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
             Text('Listen and follow',
                 style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 6),
-            const Text('Follow both prayers as the recording plays.'),
+            const Text('Follow the spoken lines in both prayers. The opening invocation is in Read.'),
             const SizedBox(height: 18),
             Card(
               child: Padding(
@@ -213,8 +213,8 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
             if (!_settingTiming) ...[
               Text(
                 _customTiming
-                    ? 'Timing saved on this device'
-                    : 'Timing is estimated. Set it once for a closer match.',
+                    ? 'Your timing is saved on this device.'
+                    : 'Line timing follows this recording. Adjust it if a line appears late or early.',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 8),
@@ -224,7 +224,7 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
                   OutlinedButton.icon(
                     onPressed: _beginTiming,
                     icon: const Icon(Icons.tune),
-                    label: Text(_customTiming ? 'Set timing again' : 'Set timing'),
+                    label: Text(_customTiming ? 'Adjust timing again' : 'Adjust timing'),
                   ),
                   if (_customTiming)
                     TextButton(
@@ -248,7 +248,8 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
                             )),
                     leading: Text('${index + 1}',
                         style: Theme.of(context).textTheme.labelLarge),
-                    subtitle: index == 0 || index == prayerSections.first.lines.length
+                    subtitle: index == 0 ||
+                            index == prayerSections.first.lines.length - 1
                         ? Text(recordedLines[index].sectionTitle)
                         : null,
                     onTap: () => widget.player.seek(
