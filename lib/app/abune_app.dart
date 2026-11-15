@@ -5,12 +5,15 @@ import 'package:just_audio/just_audio.dart';
 import '../screens/practice_screen.dart';
 import '../screens/follow_along_screen.dart';
 import '../screens/reading_screen.dart';
+import '../services/cue_store.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_about_dialog.dart';
 import '../widgets/audio_player_bar.dart';
 
 class AbuneApp extends StatefulWidget {
-  const AbuneApp({super.key});
+  const AbuneApp({this.cueStore, super.key});
+
+  final CueStore? cueStore;
 
   @override
   State<AbuneApp> createState() => _AbuneAppState();
@@ -86,7 +89,7 @@ class _AbuneAppState extends State<AbuneApp> {
             index: _tab,
             children: [
               const ReadingScreen(),
-              FollowAlongScreen(player: _player),
+              FollowAlongScreen(player: _player, cueStore: widget.cueStore),
               const PracticeScreen(),
             ],
           ),
