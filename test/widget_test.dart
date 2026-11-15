@@ -49,10 +49,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Listen and follow'), findsOneWidget);
-    expect(find.text('LINE 1 OF 21'), findsOneWidget);
+    expect(find.text('LINE 1 OF 20'), findsOneWidget);
     await tester.drag(find.byType(ListView), const Offset(0, -250));
     await tester.pumpAndSettle();
-    expect(find.text('Set timing'), findsOneWidget);
+    expect(find.text('Adjust timing'), findsOneWidget);
   });
 
   testWidgets('practice hides, reveals, and tracks a line', (tester) async {
