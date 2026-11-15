@@ -50,6 +50,8 @@ void main() {
 
     expect(find.text('Listen and follow'), findsOneWidget);
     expect(find.text('LINE 1 OF 21'), findsOneWidget);
+    await tester.drag(find.byType(ListView), const Offset(0, -250));
+    await tester.pumpAndSettle();
     expect(find.text('Set timing'), findsOneWidget);
   });
 
