@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data/legal_text.dart';
+import '../screens/legal_page.dart';
 import '../theme/app_theme.dart';
 
 class AppAboutDialog extends StatelessWidget {
@@ -35,9 +37,36 @@ class AppAboutDialog extends StatelessWidget {
               )),
         ],
       ),
-      content: const Text(
-        'I built this Flutter app to make Geʽez prayers easier to read, '
-        'listen to, and memorise, one line at a time.',
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'I built this Flutter app to make Geʽez prayers easier to read, '
+            'listen to, and memorise, one line at a time.',
+          ),
+          const SizedBox(height: 12),
+          TextButton.icon(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (_) => const LegalPage(
+                title: 'Privacy Policy',
+                sections: privacySections,
+              ),
+            )),
+            icon: const Icon(Icons.privacy_tip_outlined),
+            label: const Text('Privacy Policy'),
+          ),
+          TextButton.icon(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (_) => const LegalPage(
+                title: 'Terms of Use',
+                sections: termsSections,
+              ),
+            )),
+            icon: const Icon(Icons.description_outlined),
+            label: const Text('Terms of Use'),
+          ),
+        ],
       ),
       actions: [
         TextButton(
