@@ -29,23 +29,21 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Line 1 of 11'), findsOneWidget);
-    await tester.ensureVisible(find.text('Hide line'));
+    await tester.drag(find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Hide line'));
     await tester.pumpAndSettle();
     expect(find.text('Recite from memory'), findsOneWidget);
 
-    await tester.ensureVisible(find.text('Reveal line'));
     await tester.tap(find.text('Reveal line'));
     await tester.pumpAndSettle();
     expect(find.text('በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን'),
         findsOneWidget);
 
-    await tester.ensureVisible(find.text('Mark as learned'));
     await tester.tap(find.text('Mark as learned'));
     await tester.pumpAndSettle();
     expect(find.text('1 of 11 lines marked as learned'), findsOneWidget);
 
-    await tester.ensureVisible(find.text('Next'));
     await tester.tap(find.text('Next'));
     await tester.pumpAndSettle();
     expect(find.text('Line 2 of 11'), findsOneWidget);
