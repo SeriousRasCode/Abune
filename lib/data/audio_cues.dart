@@ -1,9 +1,11 @@
 import 'prayers.dart';
 
 final recordedLines = [
-  for (final section in prayerSections)
-    for (final line in section.lines)
-      RecordedLine(section.title, line),
+  // The printed opening invocation is not spoken in this recording.
+  for (final line in prayerSections.first.lines.skip(1))
+    RecordedLine(prayerSections.first.title, line),
+  for (final line in prayerSections.last.lines)
+    RecordedLine(prayerSections.last.title, line),
 ];
 
 class RecordedLine {
@@ -13,30 +15,30 @@ class RecordedLine {
   final String text;
 }
 
-// Approximate starts for the bundled 78-second recording. Listeners can
-// replace these with their own measured starts using the in-app sync tool.
+// Audio-derived starts from the bundled recording, reviewed against the pause
+// and transcription output of GitHub Actions run 43744881189. The two short
+// combined phrases at 58.98s and 70.68s use their nearest pause boundary.
 const defaultCueMilliseconds = <int>[
-  0,
-  3700,
-  7400,
-  11100,
-  14800,
-  18500,
-  22200,
-  25900,
-  29600,
-  33300,
-  37000,
-  40700,
-  44400,
-  48100,
-  51800,
-  55500,
-  59200,
-  62900,
-  66600,
-  70300,
-  74000,
+  880,
+  4800,
+  8540,
+  12560,
+  17760,
+  21100,
+  26200,
+  30060,
+  34620,
+  37720,
+  41180,
+  44280,
+  48700,
+  52640,
+  56500,
+  58980,
+  61540,
+  65820,
+  70680,
+  74940,
 ];
 
 int cueIndexAt(int positionMilliseconds, List<int> starts) {
