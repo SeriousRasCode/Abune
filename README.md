@@ -1,6 +1,6 @@
 # Abune Zebesemayat
 
-A Flutter prayer reader for **Abune Zebesemayat** and **Beselame Gebriel**. Read the prayers in Ge'ez script, listen to the bundled Abune Zebesemayat recording, and practise memorising one line at a time. The app supports light and dark themes.
+A Flutter prayer reader for **Abune Zebesemayat** and **Beselame Gebriel**. Read both prayers in Ge'ez script, follow both with the bundled recording, and practise memorising one line at a time. The app supports light and dark themes.
 
 ## Platforms and requirements
 
@@ -30,11 +30,15 @@ For an Android build, run `flutter build apk --debug`. The recording and font ar
 | [`lib/main.dart`](lib/main.dart) | Starts the app. |
 | [`lib/app/abune_app.dart`](lib/app/abune_app.dart) | Owns navigation, theme state, and audio setup. |
 | [`lib/data/prayers.dart`](lib/data/prayers.dart) | Stores the prayer sections and line text. |
+| [`lib/data/audio_cues.dart`](lib/data/audio_cues.dart) | Maps recording time to the prayer lines. |
+| [`lib/services/cue_store.dart`](lib/services/cue_store.dart) | Saves listener-adjusted timing on the device. |
 | [`lib/screens/`](lib/screens/) | Reading and memorisation screens. |
 | [`lib/widgets/`](lib/widgets/) | Reusable audio controls and About dialog. |
 | [`lib/theme/app_theme.dart`](lib/theme/app_theme.dart) | Light and dark colors and component styles. |
 
 Practice lets readers hide and reveal each line, move between lines, and mark lines learned during the current app session. Learned marks reset when the app closes.
+
+Listen highlights the line that matches the playback position across both prayers. Listeners can set line starts while the recording plays if the timing needs adjustment; those timestamps stay on the device.
 
 ## Checks and contributions
 
