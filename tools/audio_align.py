@@ -29,6 +29,16 @@ def main() -> None:
         )
     print(f"Expected {len(lines)} lines; got {len(result.segments)} segments", flush=True)
 
+    print("Independent Amharic transcription for section-boundary review:", flush=True)
+    transcription = model.transcribe(
+        "assets/audio/abune_tselot.mp3", language="am"
+    )
+    for segment in transcription.segments:
+        print(
+            f"HEARD {segment.start:.2f}-{segment.end:.2f} {segment.text}",
+            flush=True,
+        )
+
 
 if __name__ == "__main__":
     main()
