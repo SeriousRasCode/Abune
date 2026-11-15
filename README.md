@@ -38,7 +38,7 @@ For an Android build, run `flutter build apk --debug`. The recording and font ar
 
 Practice lets readers hide and reveal each line, move between lines, and mark lines learned during the current app session. Learned marks reset when the app closes.
 
-Listen highlights the line that matches the playback position across both prayers. Listeners can set line starts while the recording plays if the timing needs adjustment; those timestamps stay on the device.
+Listen highlights the 20 spoken lines across both prayers using cue times measured from the bundled recording. The opening invocation appears in Read but is not spoken in the recording. Listeners can adjust line starts if needed; their timestamps stay on the device.
 
 ## Checks and contributions
 
