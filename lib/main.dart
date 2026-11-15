@@ -102,9 +102,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the text color based on the current theme
-    final Color? bodyTextColor = Theme.of(context).textTheme.bodyMedium?.color;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: _currentThemeMode,
@@ -439,14 +436,12 @@ class _MyAppState extends State<MyApp> {
                       positionData?.state != ProcessingState.loading;
 
                   if (totalDuration == Duration.zero) {
-                    return Expanded(
-                      child: const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "Loading Audio...",
-                            textAlign: TextAlign.center,
-                          ),
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Loading Audio...",
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     );
