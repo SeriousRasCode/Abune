@@ -9,7 +9,7 @@ const privacySections = <LegalSection>[
   LegalSection('About this policy',
       'Abune Zebesemayat is created by Tedros Teshome. This policy describes the current app. For privacy questions, email tedroszion@gmail.com.'),
   LegalSection('Data in the app',
-      'The app has no accounts, ads, analytics, or in-app purchases. Prayer text, font, and audio are bundled in the app. Reading and playback do not send personal information to the developer. Lines marked as learned are held only in memory and are cleared when the app closes.'),
+      'The app has no accounts, ads, analytics, or in-app purchases. Prayer text, font, and audio are bundled in the app. Reading and playback do not send personal information to the developer. Lines marked as learned are held only in memory and are cleared when the app closes. If you set audio line timing, those timestamps are saved on your device and can be reset from Listen.'),
   LegalSection('Messages you send',
       'If you email the developer, your email address and message are used to answer your request. They may be retained in the email account until the request is resolved or you ask for deletion. Email delivery is handled by the email providers involved.'),
   LegalSection('Sharing and security',
