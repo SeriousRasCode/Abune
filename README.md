@@ -1,15 +1,40 @@
-# abune
-Geez prayer of Abune Zebesemayat and Beselame Gebriel
+# Abune Zebesemayat
 
-## Getting Started
+A Flutter prayer reader for **Abune Zebesemayat** and **Beselame Gebriel**. The app displays the prayers in Ge'ez script and includes a bundled audio recording of Abune Zebesemayat. Readers can switch between light and dark themes, play or pause the recording, and seek within it.
 
-This project is a starting point for a Flutter application.
+## Platforms and requirements
 
-A few resources to get you started if this is your first Flutter project:
+The repository contains Android and iOS Flutter projects. GitHub Actions checks Android builds on pull requests and publishes a signed Android release APK after a successful push to `main` or manual workflow run. An iOS build is not currently automated. To develop locally, install a Flutter SDK compatible with the Dart constraint in [`pubspec.yaml`](pubspec.yaml) and the platform toolchain for your target device. Local Flutter or Java installation is not needed to download the APK produced by GitHub Actions.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Get the app
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Open the latest successful **Android build** run for `main` on the repository's **Actions** tab.
+2. Download the `abune-android-release` artifact and extract it. Use `app-arm64-v8a-release.apk` for most current phones, or `app-armeabi-v7a-release.apk` for 32-bit ARM devices.
+3. Install the APK on an Android device that permits installs from your chosen source.
+
+The release APKs are signed with the persistent key held in the GitHub `release` environment. Each workflow run uses a higher Android version code so later release APKs can update an installed release APK. A debug APK signed with a different key requires a one-time uninstall before switching to this release build. Release builds split by ARM architecture and store debug symbols as a separate Actions artifact to keep each APK smaller.
+
+## Develop
+
+```sh
+flutter pub get
+flutter run
+```
+
+For an Android build, run `flutter build apk --debug`. The app's prayer text is in [`lib/main.dart`](lib/main.dart), and its recording and font are bundled under `assets/` and `fonts/`. It does not request prayer content from a server.
+
+## Checks and contributions
+
+The [Android build workflow](.github/workflows/android.yml) runs on pull requests, pushes to `main`, and manual dispatch. It runs Flutter analysis, widget tests, and an Android build. Signed APKs are uploaded only from `main` or manual runs, after checks pass. Open an issue for a proposed change, create a branch from `main`, keep commits focused by file or purpose, and open a pull request for review. Check the workflow result before merging.
+
+The workflow caches the Flutter SDK, Dart packages, Gradle downloads, and the required Android NDK and CMake versions between runs. The first run fills the caches; later runs can reuse them. Contributors do not need to download these tools locally.
+
+## Creator
+
+Created by Tedros Teshome.
+
+## License
+
+The source code and documentation are available under the [MIT License](LICENSE). It permits use, modification, and redistribution with the copyright and license notice included.
+
+The bundled `fonts/Benaiah.ttf` is a third-party font. Its publisher [announced it as freely available](https://t.me/s/Type_Habesha?before=977), but the font is not covered by this project's MIT license. Check the publisher's terms before redistributing the font separately. The recording in `assets/audio/abune_tselot.mp3` is also excluded from the MIT license until its rights are confirmed.

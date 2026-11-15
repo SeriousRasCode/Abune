@@ -54,10 +54,12 @@ class _MyAppState extends State<MyApp> {
 
   // Function to toggle between Light and Dark themes
   void _toggleTheme() {
+    final isDark = _currentThemeMode == ThemeMode.dark ||
+        (_currentThemeMode == ThemeMode.system &&
+            WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+                Brightness.dark);
     setState(() {
-      _currentThemeMode = _currentThemeMode == ThemeMode.light
-          ? ThemeMode.dark
-          : ThemeMode.light;
+      _currentThemeMode = isDark ? ThemeMode.light : ThemeMode.dark;
     });
   }
 
@@ -102,9 +104,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the text color based on the current theme
-    final Color? bodyTextColor = Theme.of(context).textTheme.bodyMedium?.color;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: _currentThemeMode,
@@ -168,7 +167,7 @@ class _MyAppState extends State<MyApp> {
                 // 🌙 Day/Night Mode Button
                 IconButton(
                   icon: Icon(
-                    _currentThemeMode == ThemeMode.dark
+                    Theme.of(context).brightness == Brightness.dark
                         ? Icons
                               .light_mode // Show sun icon in dark mode
                         : Icons.dark_mode, // Show moon icon in light mode
@@ -439,14 +438,12 @@ class _MyAppState extends State<MyApp> {
                       positionData?.state != ProcessingState.loading;
 
                   if (totalDuration == Duration.zero) {
-                    return Expanded(
-                      child: const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "Loading Audio...",
-                            textAlign: TextAlign.center,
-                          ),
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Loading Audio...",
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     );
