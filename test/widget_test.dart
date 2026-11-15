@@ -40,6 +40,16 @@ void main() {
         findsOneWidget);
   });
 
+  testWidgets('opens follow-along for both prayers', (tester) async {
+    await tester.pumpWidget(const AbuneApp());
+    await tester.tap(find.text('Listen'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Listen and follow'), findsOneWidget);
+    expect(find.text('LINE 1 OF 21'), findsOneWidget);
+    expect(find.text('Set timing'), findsOneWidget);
+  });
+
   testWidgets('practice hides, reveals, and tracks a line', (tester) async {
     await tester.pumpWidget(const AbuneApp());
     await tester.tap(find.text('Practice').last);
