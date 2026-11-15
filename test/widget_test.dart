@@ -18,7 +18,7 @@ void main() {
 
     final startsLight = find.byIcon(Icons.dark_mode).evaluate().isNotEmpty;
     await tester.tap(find.byTooltip('Toggle Day/Night Mode'));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(
       find.byIcon(startsLight ? Icons.light_mode : Icons.dark_mode),
