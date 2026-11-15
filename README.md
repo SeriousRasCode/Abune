@@ -9,10 +9,10 @@ The repository contains Android and iOS Flutter projects. GitHub Actions checks 
 ## Get the app
 
 1. Open the latest successful **Android build** run for `main` on the repository's **Actions** tab.
-2. Download the `abune-android-release` artifact and extract the APK.
+2. Download the `abune-android-release` artifact and extract it. Use `app-arm64-v8a-release.apk` for most current phones, or `app-armeabi-v7a-release.apk` for 32-bit ARM devices.
 3. Install the APK on an Android device that permits installs from your chosen source.
 
-The release APK is signed with the persistent key held in the GitHub `release` environment. Each workflow run uses a higher Android version code so later release APKs can update an installed release APK. A debug APK signed with a different key requires a one-time uninstall before switching to this release build.
+The release APKs are signed with the persistent key held in the GitHub `release` environment. Each workflow run uses a higher Android version code so later release APKs can update an installed release APK. A debug APK signed with a different key requires a one-time uninstall before switching to this release build. Release builds split by ARM architecture and store debug symbols as a separate Actions artifact to keep each APK smaller.
 
 ## Develop
 
@@ -26,6 +26,8 @@ For an Android build, run `flutter build apk --debug`. The app's prayer text is 
 ## Checks and contributions
 
 The [Android build workflow](.github/workflows/android.yml) runs on pull requests, pushes to `main`, and manual dispatch. It runs Flutter analysis, widget tests, and an Android build. Signed APKs are uploaded only from `main` or manual runs, after checks pass. Open an issue for a proposed change, create a branch from `main`, keep commits focused by file or purpose, and open a pull request for review. Check the workflow result before merging.
+
+The workflow caches the Flutter SDK, Dart packages, Gradle downloads, and the required Android NDK and CMake versions between runs. The first run fills the caches; later runs can reuse them. Contributors do not need to download these tools locally.
 
 ## Creator
 
