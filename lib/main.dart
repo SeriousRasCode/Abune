@@ -54,10 +54,12 @@ class _MyAppState extends State<MyApp> {
 
   // Function to toggle between Light and Dark themes
   void _toggleTheme() {
+    final isDark = _currentThemeMode == ThemeMode.dark ||
+        (_currentThemeMode == ThemeMode.system &&
+            WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+                Brightness.dark);
     setState(() {
-      _currentThemeMode = _currentThemeMode == ThemeMode.light
-          ? ThemeMode.dark
-          : ThemeMode.light;
+      _currentThemeMode = isDark ? ThemeMode.light : ThemeMode.dark;
     });
   }
 
@@ -165,7 +167,7 @@ class _MyAppState extends State<MyApp> {
                 // 🌙 Day/Night Mode Button
                 IconButton(
                   icon: Icon(
-                    _currentThemeMode == ThemeMode.dark
+                    Theme.of(context).brightness == Brightness.dark
                         ? Icons
                               .light_mode // Show sun icon in dark mode
                         : Icons.dark_mode, // Show moon icon in light mode
