@@ -1,6 +1,6 @@
 # Abune Zebesemayat
 
-A Flutter prayer reader for **Abune Zebesemayat** and **Beselame Gebriel**. The app displays the prayers in Ge'ez script and includes a bundled audio recording of Abune Zebesemayat. Readers can switch between light and dark themes, play or pause the recording, and seek within it.
+A Flutter prayer reader for **Abune Zebesemayat** and **Beselame Gebriel**. Read the prayers in Ge'ez script, listen to the bundled Abune Zebesemayat recording, and practise memorising one line at a time. The app supports light and dark themes.
 
 ## Platforms and requirements
 
@@ -21,7 +21,20 @@ flutter pub get
 flutter run
 ```
 
-For an Android build, run `flutter build apk --debug`. The app's prayer text is in [`lib/main.dart`](lib/main.dart), and its recording and font are bundled under `assets/` and `fonts/`. It does not request prayer content from a server.
+For an Android build, run `flutter build apk --debug`. The recording and font are bundled under `assets/` and `fonts/`. The app does not request prayer content from a server.
+
+### App structure
+
+| Location | Responsibility |
+| --- | --- |
+| [`lib/main.dart`](lib/main.dart) | Starts the app. |
+| [`lib/app/abune_app.dart`](lib/app/abune_app.dart) | Owns navigation, theme state, and audio setup. |
+| [`lib/data/prayers.dart`](lib/data/prayers.dart) | Stores the prayer sections and line text. |
+| [`lib/screens/`](lib/screens/) | Reading and memorisation screens. |
+| [`lib/widgets/`](lib/widgets/) | Reusable audio controls and About dialog. |
+| [`lib/theme/app_theme.dart`](lib/theme/app_theme.dart) | Light and dark colors and component styles. |
+
+Practice lets readers hide and reveal each line, move between lines, and mark lines learned during the current app session. Learned marks reset when the app closes.
 
 ## Checks and contributions
 
