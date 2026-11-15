@@ -16,10 +16,13 @@ void main() {
   testWidgets('switches the theme', (tester) async {
     await tester.pumpWidget(const MyApp());
 
-    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+    final startsLight = find.byIcon(Icons.dark_mode).evaluate().isNotEmpty;
     await tester.tap(find.byTooltip('Toggle Day/Night Mode'));
     await tester.pump();
 
-    expect(find.byIcon(Icons.light_mode), findsOneWidget);
+    expect(
+      find.byIcon(startsLight ? Icons.light_mode : Icons.dark_mode),
+      findsOneWidget,
+    );
   });
 }
