@@ -43,18 +43,6 @@ jobs:
         run: flutter pub get
       - name: Analyze source
         run: flutter analyze --no-fatal-infos
-      - name: Inspect prayer recording pauses
-        if: github.head_ref == 'feature-audio-follow-along'
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg
-          python3 tools/audio_pauses.py
-      - name: Align prayer text with recording
-        if: github.head_ref == 'feature-audio-follow-along'
-        run: |
-          python3 -m venv /tmp/prayer-align-venv
-          /tmp/prayer-align-venv/bin/pip install --quiet stable-ts
-          /tmp/prayer-align-venv/bin/python tools/audio_align.py
       - name: Run tests
         run: flutter test
       - name: Build Android on GitHub
