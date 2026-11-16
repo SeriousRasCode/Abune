@@ -110,6 +110,14 @@ jobs:
           for apk in build/app/outputs/flutter-apk/app-{armeabi-v7a,arm64-v8a}-release.apk; do
             "$signer" verify --verbose "$apk"
           done
+      - name: Build signed Play App Bundle
+        run: flutter build appbundle --release --split-debug-info=build/symbols --build-number=${{ github.run_number }}
+      - name: Verify Play App Bundle signature
+        shell: bash
+        run: |
+          jarsigner -verify build/app/outputs/bundle/release/app-release.aab > /tmp/abune-bundle-verification.txt
+          cat /tmp/abune-bundle-verification.txt
+          grep -q 'jar verified' /tmp/abune-bundle-verification.txt
       - name: Upload signed ARM APKs
         uses: actions/upload-artifact@v4
         with:
@@ -118,24 +126,40 @@ jobs:
             build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
             build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
           if-no-files-found: error
+      - name: Upload Play App Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: abune-play-bundle
+          path: build/app/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
       - name: Upload debug symbols
         uses: actions/upload-artifact@v4
         with:
           name: abune-android-symbols
           path: build/symbols/
           if-no-files-found: error
-      - name: Publish tagged GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Publish GitHub Release
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          version=$(sed -nE 's/^version: ([0-9]+\.[0-9]+\.[0-9]+).*/\1/p' pubspec.yaml)
+          if [[ -z "$version" ]]; then
+            echo 'Could not read app version from pubspec.yaml' >&2
+            exit 1
+          fi
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            tag="$GITHUB_REF_NAME"
+          else
+            tag="v${version}-build.${GITHUB_RUN_NUMBER}"
+          fi
           apks=(
             build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
             build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
           )
-          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            gh release upload "$GITHUB_REF_NAME" "${apks[@]}" --clobber
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "${apks[@]}" --clobber
           else
-            gh release create "$GITHUB_REF_NAME" "${apks[@]}" --verify-tag --generate-notes --title "Abune $GITHUB_REF_NAME"
+            gh release create "$tag" "${apks[@]}" --target "$GITHUB_SHA" --generate-notes --latest --title "Abune v$version (build $GITHUB_RUN_NUMBER)"
           fi

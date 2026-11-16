@@ -13,11 +13,11 @@ I built Abune Zebesemayat to make two Ethiopian Orthodox prayers easier to read,
 
 ## Download for Android
 
-Download a signed APK from [GitHub Releases](https://github.com/SeriousRasCode/Abune/releases). Choose `app-arm64-v8a-release.apk` for most current Android phones or `app-armeabi-v7a-release.apk` for 32-bit ARM devices. The separate files keep downloads smaller.
+Download a signed APK from [GitHub Releases](https://github.com/SeriousRasCode/Abune/releases). I publish a new release automatically after a successful build on `main`. Choose `app-arm64-v8a-release.apk` for most current Android phones or `app-armeabi-v7a-release.apk` for 32-bit ARM devices. The separate files keep downloads smaller.
 
 I sign each release with the same key stored in the GitHub `release` environment, and every build receives a higher Android version code. That lets a newer release update an earlier release without uninstalling it. A debug build uses a different key and cannot update a release build.
 
-The repository also contains an iOS Flutter project, but I currently publish Android builds only. For builds from `main` that do not have a version tag, the signed APKs are available as the `abune-android-release` artifact on the [Actions page](https://github.com/SeriousRasCode/Abune/actions).
+The repository also contains an iOS Flutter project, but I currently publish Android builds only. Each signed build is also available as the `abune-android-release` artifact on the [Actions page](https://github.com/SeriousRasCode/Abune/actions).
 
 ## For contributors
 
@@ -30,7 +30,7 @@ flutter pub get
 flutter run
 ```
 
-The [Android workflow](.github/workflows/android.yml) builds signed, ARM-specific release APKs on `main` and version tags. It verifies their signatures and publishes tagged APKs to GitHub Releases. Flutter, Dart package, Gradle, NDK, and CMake downloads are cached between runs.
+The [Android workflow](.github/workflows/android.yml) builds signed, ARM-specific release APKs on `main` and version tags. It verifies their signatures and publishes a GitHub Release automatically after a successful build. It also builds a signed Android App Bundle as an Actions artifact for Play Console preparation. Flutter, Dart package, Gradle, NDK, and CMake downloads are cached between runs.
 
 ### Where the code lives
 
