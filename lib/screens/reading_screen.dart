@@ -12,17 +12,17 @@ class ReadingScreen extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
       children: [
-        Text('PRAYER READER',
+        Text('READ',
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: scheme.secondary,
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.bold,
                 )),
         const SizedBox(height: 8),
-        Text('Read at your own pace',
+        Text('Prayers in Geʽez',
             style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 6),
-        Text('Follow the Geʽez text, then use Practice to learn it line by line.',
+        Text('Read both prayers. Use Listen to follow the recording, or Practice to memorise each line.',
             style: Theme.of(context).textTheme.bodyMedium),
         const SizedBox(height: 20),
         for (final section in prayerSections) ...[

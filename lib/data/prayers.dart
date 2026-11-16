@@ -13,7 +13,7 @@ class PrayerSection {
 const prayerSections = <PrayerSection>[
   PrayerSection(
     title: 'አቡነ ዘበሰማያት በግዕዝ',
-    shortTitle: 'Abune',
+    shortTitle: 'Abune Zebesemayat',
     lines: [
       'በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ አምላክ አሜን',
       'አቡነ ዘበሰማያት ይትቀደስ ስምከ',
@@ -30,7 +30,7 @@ const prayerSections = <PrayerSection>[
   ),
   PrayerSection(
     title: 'በሰላም ቅዱስ ገብርኤል መልአክ',
-    shortTitle: 'St Gabriel',
+    shortTitle: 'Beselame Gebriel',
     lines: [
       'በሰላመ ቅዱስ ገብርኤል መልአክ',
       'ኦ እግዝእትየ ማርያም ሰላም ለኪ',
