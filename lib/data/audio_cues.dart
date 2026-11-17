@@ -41,8 +41,8 @@ const defaultCueMilliseconds = <int>[
   74940,
 ];
 
-int cueIndexAt(int positionMilliseconds, List<int> starts) {
-  if (starts.length != recordedLines.length) {
+int cueIndexAt(int positionMilliseconds, List<int> starts, {int? lineCount}) {
+  if (starts.length != (lineCount ?? recordedLines.length)) {
     throw ArgumentError('Cue count must match the recorded prayer lines.');
   }
   for (var index = starts.length - 1; index > 0; index--) {
@@ -51,8 +51,8 @@ int cueIndexAt(int positionMilliseconds, List<int> starts) {
   return 0;
 }
 
-bool validCueStarts(List<int> starts) {
-  if (starts.length != recordedLines.length || starts.first < 0) {
+bool validCueStarts(List<int> starts, {int? lineCount}) {
+  if (starts.length != (lineCount ?? recordedLines.length) || starts.isEmpty || starts.first < 0) {
     return false;
   }
   for (var index = 1; index < starts.length; index++) {
