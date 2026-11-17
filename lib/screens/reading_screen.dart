@@ -22,7 +22,7 @@ class ReadingScreen extends StatelessWidget {
         Text('Prayers in Geʽez',
             style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 6),
-        Text('Read both prayers. Use Listen to follow the recording, or Practice to memorise each line.',
+        Text('Read the prayers. Use Listen to follow the recordings, or Practice to memorise each line.',
             style: Theme.of(context).textTheme.bodyMedium),
         const SizedBox(height: 20),
         for (final section in prayerSections) ...[
