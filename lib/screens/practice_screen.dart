@@ -33,11 +33,11 @@ class _PracticeScreenState extends State<PracticeScreen> {
       return;
     }
     if (!mounted) return;
-    final section = saved.section.clamp(0, prayerSections.length - 1);
+    final section = saved.section.clamp(0, prayerSections.length - 1).toInt();
     setState(() {
       _learned.addAll(saved.learned);
       _sectionIndex = section;
-      _lineIndex = saved.line.clamp(0, prayerSections[section].lines.length - 1);
+      _lineIndex = saved.line.clamp(0, prayerSections[section].lines.length - 1).toInt();
     });
   }
 
