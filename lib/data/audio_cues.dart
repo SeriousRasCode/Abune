@@ -4,8 +4,8 @@ final recordedLines = [
   // The printed opening invocation is not spoken in this recording.
   for (final line in prayerSections.first.lines.skip(1))
     RecordedLine(prayerSections.first.title, line),
-  for (final line in prayerSections.last.lines)
-    RecordedLine(prayerSections.last.title, line),
+  for (final line in prayerSections[1].lines)
+    RecordedLine(prayerSections[1].title, line),
 ];
 
 class RecordedLine {
