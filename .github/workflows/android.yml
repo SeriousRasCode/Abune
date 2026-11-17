@@ -45,7 +45,10 @@ jobs:
         run: flutter analyze --no-fatal-infos
       - name: Inspect bundled Sibhat audio
         if: github.head_ref == 'feature-sibhat-tselot'
-        run: python3 tools/audio_pauses.py assets/audio/sibhat_tselot.m4a
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python3 tools/audio_pauses.py assets/audio/sibhat_tselot.m4a
       - name: Run tests
         run: flutter test
       - name: Build Android on GitHub
