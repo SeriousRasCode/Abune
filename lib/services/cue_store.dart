@@ -9,9 +9,13 @@ abstract interface class CueStore {
 }
 
 class LocalCueStore implements CueStore {
-  LocalCueStore() : _prefs = SharedPreferencesAsync();
+  LocalCueStore({String key = 'prayer_audio_cues_v3', int? lineCount})
+      : _key = key,
+        _lineCount = lineCount ?? recordedLines.length,
+        _prefs = SharedPreferencesAsync();
 
-  static const _key = 'prayer_audio_cues_v3';
+  final String _key;
+  final int _lineCount;
   final SharedPreferencesAsync _prefs;
 
   @override
@@ -21,12 +25,12 @@ class LocalCueStore implements CueStore {
     final starts = stored.map(int.tryParse).toList();
     if (starts.any((value) => value == null)) return null;
     final parsed = starts.cast<int>();
-    return validCueStarts(parsed) ? parsed : null;
+    return validCueStarts(parsed, lineCount: _lineCount) ? parsed : null;
   }
 
   @override
   Future<void> save(List<int> milliseconds) async {
-    if (!validCueStarts(milliseconds)) {
+    if (!validCueStarts(milliseconds, lineCount: _lineCount)) {
       throw ArgumentError('Invalid audio cue timings.');
     }
     await _prefs.setStringList(

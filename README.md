@@ -2,14 +2,14 @@
 
 Created by Tedros Teshome.
 
-I built Abune Zebesemayat to make two Ethiopian Orthodox prayers easier to read, hear, and memorise. The app shows **Abune Zebesemayat** and **Beselame Gebriel** in Geʽez script, with one bundled recording that contains both prayers.
+I built Abune Zebesemayat to make Ethiopian Orthodox prayers easier to read, hear, and memorise. The app includes **Abune Zebesemayat**, **Beselame Gebriel**, and **Sibhat Tselot** in Geʽez script. Two bundled recordings cover the three prayers.
 
 ## What the app offers
 
-- **Read:** See the full text of both prayers in a clear, scrollable layout.
-- **Listen:** Follow the spoken lines as the recording plays. The line timing is based on the bundled audio. The opening invocation remains in Read; it is not spoken in this recording.
-- **Practice:** Hide and reveal one line at a time, then mark lines learned during the current session.
-- **Comfort:** Switch between light and dark themes and seek within the recording.
+- **Read:** See the full text of all three prayers in a clear, scrollable layout.
+- **Listen:** Switch between the recordings. Abune Zebesemayat and Beselame Gebriel have audio synced line highlighting; Sibhat has a compact line reader you advance while listening. The opening invocation for Abune remains in Read because it is not spoken in that recording.
+- **Practice:** Hide and reveal one line at a time. The app saves learned lines and your place across sessions, with progress shown for each prayer.
+- **Comfort:** Your day or night choice is remembered, and both recordings have playback and seeking controls.
 
 ## Download for Android
 
@@ -38,14 +38,16 @@ The [Android workflow](.github/workflows/android.yml) builds signed, ARM-specifi
 | --- | --- |
 | [`lib/main.dart`](lib/main.dart) | Starts the app. |
 | [`lib/app/abune_app.dart`](lib/app/abune_app.dart) | Connects navigation, theme, and playback. |
-| [`lib/data/prayers.dart`](lib/data/prayers.dart) | Holds the prayer text. |
+| [`lib/data/prayers.dart`](lib/data/prayers.dart) | Holds the prayer collection. |
+| [`lib/data/sibhat_prayer.dart`](lib/data/sibhat_prayer.dart) | Holds Sibhat text checked against an Ethiopian Orthodox prayer source. |
 | [`lib/data/audio_cues.dart`](lib/data/audio_cues.dart) | Matches spoken lines to recording time. |
 | [`lib/screens/`](lib/screens/) | Read, Listen, Practice, and legal screens. |
 | [`lib/widgets/`](lib/widgets/) | Shared audio controls and the About dialog. |
 | [`lib/services/cue_store.dart`](lib/services/cue_store.dart) | Saves optional timing adjustments on the device. |
+| [`lib/services/study_store.dart`](lib/services/study_store.dart) | Saves learning progress and your place. |
 | [`lib/theme/app_theme.dart`](lib/theme/app_theme.dart) | Light and dark visual styles. |
 
-Practice marks last only for the current session. If a listener adjusts the timing in Listen, those timestamps are saved on their device.
+Sibhat's Geʽez wording was checked against the [Medhanie Alem Ethiopian Orthodox Tewahedo Church prayer page](https://sites.google.com/site/medhanialemgrandrapids/prayers). If a listener adjusts the original recording's timing in Listen, those timestamps are saved on their device.
 
 ## Privacy and terms
 
@@ -55,4 +57,4 @@ The app opens its Privacy Policy and Terms of Use from **About**. Public copies 
 
 I release my source code and documentation under the [MIT License](LICENSE). It allows use, changes, and redistribution when the copyright and license notice are kept.
 
-The bundled `fonts/Benaiah.ttf` is a third-party font. Its publisher [announced it as freely available](https://t.me/s/Type_Habesha?before=977), but it is outside my MIT license. The recording in `assets/audio/abune_tselot.mp3` is also outside the MIT license. Anyone redistributing either file separately should check its rights with the original rights holder.
+The bundled `fonts/Benaiah.ttf` is a third-party font. Its publisher [announced it as freely available](https://t.me/s/Type_Habesha?before=977), but it is outside my MIT license. The recordings in `assets/audio/` are also outside the MIT license. Anyone redistributing these files separately should check their rights with the original rights holders.

@@ -7,9 +7,10 @@ import sys
 
 
 def main() -> None:
+    path = sys.argv[1] if len(sys.argv) > 1 else "assets/audio/abune_tselot.mp3"
     result = subprocess.run(
         [
-            "ffmpeg", "-v", "error", "-i", "assets/audio/abune_tselot.mp3",
+            "ffmpeg", "-v", "error", "-i", path,
             "-f", "s16le", "-ac", "1", "-ar", "8000", "pipe:1",
         ],
         capture_output=True,

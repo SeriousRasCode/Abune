@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../data/prayers.dart';
+import '../services/study_store.dart';
 
 class PracticeScreen extends StatefulWidget {
   const PracticeScreen({super.key});
@@ -14,6 +17,33 @@ class _PracticeScreenState extends State<PracticeScreen> {
   int _lineIndex = 0;
   bool _revealed = true;
   final Set<String> _learned = {};
+  final StudyStore _store = StudyStore();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProgress();
+  }
+
+  Future<void> _loadProgress() async {
+    StudyProgress saved;
+    try {
+      saved = await _store.load();
+    } catch (_) {
+      return;
+    }
+    if (!mounted) return;
+    final section = saved.section.clamp(0, prayerSections.length - 1).toInt();
+    setState(() {
+      _learned.addAll(saved.learned);
+      _sectionIndex = section;
+      _lineIndex = saved.line.clamp(0, prayerSections[section].lines.length - 1).toInt();
+    });
+  }
+
+  void _saveProgress() {
+    unawaited(_store.save(_learned, _sectionIndex, _lineIndex).catchError((Object _) {}));
+  }
 
   String get _key => '$_sectionIndex:$_lineIndex';
 
@@ -21,11 +51,13 @@ class _PracticeScreenState extends State<PracticeScreen> {
         _sectionIndex = index;
         _lineIndex = 0;
         _revealed = true;
+        _saveProgress();
       });
 
   void _move(int direction) => setState(() {
         _lineIndex += direction;
         _revealed = false;
+        _saveProgress();
       });
 
   @override
@@ -36,6 +68,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
     final learnedCount = List.generate(count, (index) => '$_sectionIndex:$index')
         .where(_learned.contains)
         .length;
+    final totalLines = prayerSections.fold<int>(0, (sum, item) => sum + item.lines.length);
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
@@ -50,14 +83,21 @@ class _PracticeScreenState extends State<PracticeScreen> {
         Text('Learn each line',
             style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 6),
-        const Text('Read a line. Hide it, say it from memory, then reveal it to check.'),
+        const Text('Read, recall, then reveal. Your place and learned lines are saved.'),
+        const SizedBox(height: 10),
+        Text('${_learned.length} of $totalLines lines learned',
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(color: scheme.secondary)),
+        const SizedBox(height: 6),
+        LinearProgressIndicator(value: (_learned.length / totalLines).clamp(0.0, 1.0).toDouble()),
         const SizedBox(height: 18),
         Wrap(
           spacing: 8,
           children: [
             for (var index = 0; index < prayerSections.length; index++)
               ChoiceChip(
-                label: Text(prayerSections[index].shortTitle),
+                label: Text('${prayerSections[index].shortTitle} '
+                    '${List.generate(prayerSections[index].lines.length, (line) => '$index:$line').where(_learned.contains).length}'
+                    '/${prayerSections[index].lines.length}'),
                 selected: index == _sectionIndex,
                 onSelected: (_) => _chooseSection(index),
               ),
@@ -104,6 +144,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                 OutlinedButton.icon(
                   onPressed: () => setState(() {
                     if (!_learned.add(_key)) _learned.remove(_key);
+                    _saveProgress();
                   }),
                   icon: Icon(_learned.contains(_key)
                       ? Icons.check_circle
@@ -118,6 +159,8 @@ class _PracticeScreenState extends State<PracticeScreen> {
         ),
         const SizedBox(height: 14),
         Text('$learnedCount of $count lines marked as learned'),
+        const SizedBox(height: 8),
+        LinearProgressIndicator(value: learnedCount / count),
         const SizedBox(height: 10),
         Row(
           children: [

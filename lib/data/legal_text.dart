@@ -24,7 +24,7 @@ const termsSections = <LegalSection>[
   LegalSection('About the app',
       'Abune Zebesemayat is a free prayer reader and memorisation aid created by Tedros Teshome. It is provided for personal devotional and educational use.'),
   LegalSection('Content and rights',
-      'The app includes Geʽez prayer text, a bundled recording, and a third-party font. The MIT license in the project repository covers the developer’s source code and documentation, not the recording or font. Do not assume that the app gives you permission to redistribute those third-party files separately.'),
+      'The app includes Geʽez prayer text, bundled recordings, and a third-party font. The MIT license in the project repository covers the developer’s source code and documentation, not the recordings or font. Do not assume that the app gives you permission to redistribute those third-party files separately.'),
   LegalSection('Use of the app',
       'You may read, listen, and practise with the app. Please use it lawfully and respectfully. The practice feature is a learning aid and does not certify that a prayer has been memorised or replace guidance from a teacher or church.'),
   LegalSection('Availability and changes',

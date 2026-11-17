@@ -2,8 +2,13 @@ import 'package:abune/app/abune_app.dart';
 import 'package:abune/services/cue_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 
 void main() {
+  setUp(() {
+    SharedPreferencesAsyncPlatform.instance = InMemorySharedPreferencesAsync.empty();
+  });
   Widget app() => AbuneApp(cueStore: _MemoryCueStore());
 
   testWidgets('opens the About dialog with creator credit', (tester) async {
@@ -55,6 +60,18 @@ void main() {
     expect(find.text('Adjust timing'), findsOneWidget);
   });
 
+  testWidgets('opens the Sibhat recording and text', (tester) async {
+    await tester.pumpWidget(app());
+    await tester.tap(find.text('Listen'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Sibhat'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Listen and read'), findsOneWidget);
+    expect(find.text('LINE 1 OF 33'), findsOneWidget);
+    expect(find.textContaining('ስብሐት ለአብ'), findsWidgets);
+  });
+
   testWidgets('practice hides, reveals, and tracks a line', (tester) async {
     await tester.pumpWidget(app());
     await tester.tap(find.text('Practice').last);
@@ -73,6 +90,8 @@ void main() {
         findsOneWidget);
 
     await tester.tap(find.text('Mark as learned'));
+    await tester.pumpAndSettle();
+    await tester.drag(find.byType(ListView), const Offset(0, -250));
     await tester.pumpAndSettle();
     expect(find.text('1 of 11 lines marked as learned'), findsOneWidget);
 

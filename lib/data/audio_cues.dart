@@ -4,8 +4,8 @@ final recordedLines = [
   // The printed opening invocation is not spoken in this recording.
   for (final line in prayerSections.first.lines.skip(1))
     RecordedLine(prayerSections.first.title, line),
-  for (final line in prayerSections.last.lines)
-    RecordedLine(prayerSections.last.title, line),
+  for (final line in prayerSections[1].lines)
+    RecordedLine(prayerSections[1].title, line),
 ];
 
 class RecordedLine {
@@ -41,8 +41,8 @@ const defaultCueMilliseconds = <int>[
   74940,
 ];
 
-int cueIndexAt(int positionMilliseconds, List<int> starts) {
-  if (starts.length != recordedLines.length) {
+int cueIndexAt(int positionMilliseconds, List<int> starts, {int? lineCount}) {
+  if (starts.length != (lineCount ?? recordedLines.length)) {
     throw ArgumentError('Cue count must match the recorded prayer lines.');
   }
   for (var index = starts.length - 1; index > 0; index--) {
@@ -51,8 +51,8 @@ int cueIndexAt(int positionMilliseconds, List<int> starts) {
   return 0;
 }
 
-bool validCueStarts(List<int> starts) {
-  if (starts.length != recordedLines.length || starts.first < 0) {
+bool validCueStarts(List<int> starts, {int? lineCount}) {
+  if (starts.length != (lineCount ?? recordedLines.length) || starts.isEmpty || starts.first < 0) {
     return false;
   }
   for (var index = 1; index < starts.length; index++) {

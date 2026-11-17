@@ -8,18 +8,32 @@ import '../data/prayers.dart';
 import '../services/cue_store.dart';
 
 class FollowAlongScreen extends StatefulWidget {
-  const FollowAlongScreen({required this.player, this.cueStore, super.key});
+  const FollowAlongScreen({
+    required this.player,
+    this.cueStore,
+    this.lines,
+    this.cues,
+    this.description = 'Follow the spoken lines in both prayers. The opening invocation is in Read.',
+    this.cueKey = 'prayer_audio_cues_v3',
+    super.key,
+  });
 
   final AudioPlayer player;
   final CueStore? cueStore;
+  final List<RecordedLine>? lines;
+  final List<int>? cues;
+  final String description;
+  final String cueKey;
 
   @override
   State<FollowAlongScreen> createState() => _FollowAlongScreenState();
 }
 
 class _FollowAlongScreenState extends State<FollowAlongScreen> {
+  List<RecordedLine> get _lines => widget.lines ?? recordedLines;
+  List<int> get _cues => widget.cues ?? defaultCueMilliseconds;
   late final CueStore _store;
-  List<int> _starts = List.of(defaultCueMilliseconds);
+  late List<int> _starts;
   final List<int> _markedStarts = [];
   bool _customTiming = false;
   bool _settingTiming = false;
@@ -27,7 +41,8 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
   @override
   void initState() {
     super.initState();
-    _store = widget.cueStore ?? LocalCueStore();
+    _starts = List.of(_cues);
+    _store = widget.cueStore ?? LocalCueStore(key: widget.cueKey, lineCount: _lines.length);
     _loadSavedTiming();
   }
 
@@ -65,7 +80,7 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
       _message('Wait until the next line starts.');
       return;
     }
-    if (_markedStarts.length + 1 == recordedLines.length) {
+    if (_markedStarts.length + 1 == _lines.length) {
       final starts = [..._markedStarts, position];
       try {
         await _store.save(starts);
@@ -92,7 +107,7 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
       await _store.clear();
       if (!mounted) return;
       setState(() {
-        _starts = List.of(defaultCueMilliseconds);
+        _starts = List.of(_cues);
         _customTiming = false;
         _settingTiming = false;
       });
@@ -117,7 +132,7 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
       stream: widget.player.positionStream,
       builder: (context, snapshot) {
         final position = snapshot.data ?? Duration.zero;
-        final active = cueIndexAt(position.inMilliseconds, _starts);
+        final active = cueIndexAt(position.inMilliseconds, _starts, lineCount: _lines.length);
         final target = _markedStarts.length;
         return ListView(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
@@ -132,7 +147,7 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
             Text('Listen and follow',
                 style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 6),
-            const Text('Follow the spoken lines in both prayers. The opening invocation is in Read.'),
+            Text(widget.description),
             const SizedBox(height: 18),
             Card(
               child: Padding(
@@ -142,8 +157,8 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
                   children: [
                     Text(
                       _settingTiming
-                          ? 'SET TIMING • LINE ${target + 1} OF ${recordedLines.length}'
-                          : 'LINE ${active + 1} OF ${recordedLines.length}',
+                          ? 'SET TIMING • LINE ${target + 1} OF ${_lines.length}'
+                          : 'LINE ${active + 1} OF ${_lines.length}',
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
                             color: scheme.secondary,
                             letterSpacing: 0.8,
@@ -152,8 +167,8 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
                     const SizedBox(height: 16),
                     Text(
                       _settingTiming
-                          ? recordedLines[target].sectionTitle
-                          : recordedLines[active].sectionTitle,
+                          ? _lines[target].sectionTitle
+                          : _lines[active].sectionTitle,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             color: scheme.secondary,
@@ -163,8 +178,8 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
                     const SizedBox(height: 8),
                     Text(
                       _settingTiming
-                          ? recordedLines[target].text
-                          : recordedLines[active].text,
+                          ? _lines[target].text
+                          : _lines[active].text,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontFamily: 'MyCustomFont',
@@ -237,11 +252,11 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
               Text('Tap a line to play from there.',
                   style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 8),
-              for (var index = 0; index < recordedLines.length; index++)
+              for (var index = 0; index < _lines.length; index++)
                 Card(
                   color: index == active ? scheme.primaryContainer : null,
                   child: ListTile(
-                    title: Text(recordedLines[index].text,
+                    title: Text(_lines[index].text,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontFamily: 'MyCustomFont',
                               height: 1.5,
@@ -250,7 +265,7 @@ class _FollowAlongScreenState extends State<FollowAlongScreen> {
                         style: Theme.of(context).textTheme.labelLarge),
                     subtitle: index == 0 ||
                             index == prayerSections.first.lines.length - 1
-                        ? Text(recordedLines[index].sectionTitle)
+                        ? Text(_lines[index].sectionTitle)
                         : null,
                     onTap: () => widget.player.seek(
                       Duration(milliseconds: _starts[index]),

@@ -1,3 +1,5 @@
+import 'sibhat_prayer.dart';
+
 class PrayerSection {
   const PrayerSection({
     required this.title,
@@ -43,5 +45,10 @@ const prayerSections = <PrayerSection>[
       'ምሕረት በእንቲኣነ ፣ ኀበ ፍቁር ወልድኪ',
       'ኢየሱስ ክርስቶስ ፣ ከመ ይሥረይ ለነ ኃጣውኢነ',
     ],
+  ),
+  PrayerSection(
+    title: 'ስብሐት ለአብ',
+    shortTitle: 'Sibhat Tselot',
+    lines: sibhatPrayerLines,
   ),
 ];
