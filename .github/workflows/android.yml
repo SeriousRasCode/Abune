@@ -49,6 +49,8 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
           python3 tools/audio_pauses.py assets/audio/sibhat_tselot.m4a
+          python3 -m pip install --user stable-ts
+          python3 tools/sibhat_align.py
       - name: Run tests
         run: flutter test
       - name: Build Android on GitHub
