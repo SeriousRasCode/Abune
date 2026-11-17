@@ -45,6 +45,9 @@ jobs:
         run: flutter analyze --no-fatal-infos
       - name: Run tests
         run: flutter test
+      - name: Inspect bundled Sibhat audio
+        if: github.head_ref == 'feature-sibhat-tselot'
+        run: python3 tools/audio_pauses.py assets/audio/sibhat_tselot.m4a
       - name: Build Android on GitHub
         if: github.event_name == 'pull_request'
         run: flutter build apk --debug
