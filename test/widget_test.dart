@@ -91,6 +91,8 @@ void main() {
 
     await tester.tap(find.text('Mark as learned'));
     await tester.pumpAndSettle();
+    await tester.drag(find.byType(ListView), const Offset(0, -250));
+    await tester.pumpAndSettle();
     expect(find.text('1 of 11 lines marked as learned'), findsOneWidget);
 
     await tester.drag(find.byType(ListView), const Offset(0, -200));
