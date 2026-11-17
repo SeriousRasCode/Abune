@@ -11,6 +11,24 @@ permissions:
   contents: read
 
 jobs:
+  prepare-sibhat-audio:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/feature-sibhat-tselot'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Install downloader
+        run: python3 -m pip install --user --upgrade yt-dlp
+      - name: Inspect and download source recording
+        shell: bash
+        run: |
+          "$HOME/.local/bin/yt-dlp" --print 'title=%(title)s duration=%(duration)s uploader=%(uploader)s' 'https://www.youtube.com/watch?v=43E8T8TsBIc'
+          "$HOME/.local/bin/yt-dlp" -f bestaudio -x --audio-format mp3 --audio-quality 5 -o 'sibhat-source.%(ext)s' 'https://www.youtube.com/watch?v=43E8T8TsBIc'
+          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 sibhat-source.mp3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sibhat-source-audio
+          path: sibhat-source.mp3
+          if-no-files-found: error
   verify:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -50,7 +68,7 @@ jobs:
         run: flutter build apk --debug
 
   release:
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
     needs: verify
     runs-on: ubuntu-24.04
     timeout-minutes: 30
