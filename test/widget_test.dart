@@ -2,8 +2,10 @@ import 'package:abune/app/abune_app.dart';
 import 'package:abune/services/cue_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  setUp(() => SharedPreferences.setMockInitialValues({}));
   Widget app() => AbuneApp(cueStore: _MemoryCueStore());
 
   testWidgets('opens the About dialog with creator credit', (tester) async {
