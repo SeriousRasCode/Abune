@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/practice_screen.dart';
 import '../screens/follow_along_screen.dart';
@@ -22,12 +25,28 @@ class AbuneApp extends StatefulWidget {
 class _AbuneAppState extends State<AbuneApp> {
   final AudioPlayer _player = AudioPlayer();
   ThemeMode _themeMode = ThemeMode.system;
+  final SharedPreferencesAsync _prefs = SharedPreferencesAsync();
   int _tab = 0;
 
   @override
   void initState() {
     super.initState();
     _loadAudio();
+    _loadTheme();
+  }
+
+  Future<void> _loadTheme() async {
+    try {
+      final saved = await _prefs.getString('theme_mode_v1');
+      if (mounted && saved != null) {
+        setState(() => _themeMode = ThemeMode.values.firstWhere(
+              (mode) => mode.name == saved,
+              orElse: () => ThemeMode.system,
+            ));
+      }
+    } catch (_) {
+      // Keep the system theme when device storage is unavailable.
+    }
   }
 
   Future<void> _loadAudio() async {
@@ -47,6 +66,8 @@ class _AbuneAppState extends State<AbuneApp> {
   void _toggleTheme(Brightness brightness) {
     final isDark = brightness == Brightness.dark;
     setState(() => _themeMode = isDark ? ThemeMode.light : ThemeMode.dark);
+    unawaited(_prefs.setString('theme_mode_v1', _themeMode.name)
+        .catchError((Object _) {}));
   }
 
   @override
