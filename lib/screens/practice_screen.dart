@@ -68,6 +68,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
     final learnedCount = List.generate(count, (index) => '$_sectionIndex:$index')
         .where(_learned.contains)
         .length;
+    final totalLines = prayerSections.fold<int>(0, (sum, item) => sum + item.lines.length);
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
@@ -83,13 +84,20 @@ class _PracticeScreenState extends State<PracticeScreen> {
             style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 6),
         const Text('Read, recall, then reveal. Your place and learned lines are saved.'),
+        const SizedBox(height: 10),
+        Text('${_learned.length} of $totalLines lines learned',
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(color: scheme.secondary)),
+        const SizedBox(height: 6),
+        LinearProgressIndicator(value: (_learned.length / totalLines).clamp(0.0, 1.0).toDouble()),
         const SizedBox(height: 18),
         Wrap(
           spacing: 8,
           children: [
             for (var index = 0; index < prayerSections.length; index++)
               ChoiceChip(
-                label: Text(prayerSections[index].shortTitle),
+                label: Text('${prayerSections[index].shortTitle} '
+                    '${List.generate(prayerSections[index].lines.length, (line) => '$index:$line').where(_learned.contains).length}'
+                    '/${prayerSections[index].lines.length}'),
                 selected: index == _sectionIndex,
                 onSelected: (_) => _chooseSection(index),
               ),
