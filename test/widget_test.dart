@@ -57,6 +57,18 @@ void main() {
     expect(find.text('Adjust timing'), findsOneWidget);
   });
 
+  testWidgets('opens the Sibhat recording and text', (tester) async {
+    await tester.pumpWidget(app());
+    await tester.tap(find.text('Listen'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Sibhat'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Listen and read'), findsOneWidget);
+    expect(find.text('LINE 1 OF 33'), findsOneWidget);
+    expect(find.textContaining('ስብሐት ለአብ'), findsWidgets);
+  });
+
   testWidgets('practice hides, reveals, and tracks a line', (tester) async {
     await tester.pumpWidget(app());
     await tester.tap(find.text('Practice').last);
