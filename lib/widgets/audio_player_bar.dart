@@ -116,4 +116,3 @@ class _AudioPosition {
   final Duration duration;
   final PlayerState state;
 }
-
