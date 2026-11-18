@@ -163,6 +163,7 @@ class _AbuneAppState extends State<AbuneApp> {
                 AudioPlayerBar(
                   key: ValueKey(_recording),
                   player: _recording == 0 ? _player : _sibhatPlayer,
+                  title: _recording == 0 ? 'Abune & Gebriel' : 'Sibhat Tselot',
                 ),
               AppBottomNavigation(
                 selectedIndex: _tab,
