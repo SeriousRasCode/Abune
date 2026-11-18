@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AudioPlayerBar extends StatefulWidget {
-  const AudioPlayerBar({required this.player, super.key});
+  const AudioPlayerBar({required this.player, this.title = 'Prayer audio', super.key});
 
   final AudioPlayer player;
+  final String title;
 
   @override
   State<AudioPlayerBar> createState() => _AudioPlayerBarState();
@@ -44,39 +47,47 @@ class _AudioPlayerBarState extends State<AudioPlayerBar> {
         final ready = duration > Duration.zero;
         final playing = data?.state.playing ?? false;
         final complete = data?.state.processingState == ProcessingState.completed;
+        final scheme = Theme.of(context).colorScheme;
         return Material(
-          color: Theme.of(context).colorScheme.surface,
+          color: scheme.surface,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 2),
+            padding: const EdgeInsets.fromLTRB(12, 4, 12, 2),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.graphic_eq, size: 20),
-                    const SizedBox(width: 8),
-                    const Expanded(child: Text('Prayer recording')),
-                    IconButton(
-                      tooltip: playing ? 'Pause audio' : 'Play audio',
-                      onPressed: ready
-                          ? () async {
-                              if (playing) {
-                                await widget.player.pause();
-                              } else {
-                                if (complete) await widget.player.seek(Duration.zero);
-                                await widget.player.play();
-                              }
-                            }
-                          : null,
-                      icon: Icon(playing ? Icons.pause_circle : Icons.play_circle),
+                    Container(
+                      width: 44, height: 44,
+                      decoration: BoxDecoration(
+                        color: scheme.primary, borderRadius: BorderRadius.circular(14)),
+                      child: IconButton(
+                        tooltip: playing ? 'Pause audio' : 'Play audio',
+                        color: scheme.onPrimary,
+                        onPressed: ready ? () async {
+                          if (playing) {
+                            await widget.player.pause();
+                          } else {
+                            if (complete) await widget.player.seek(Duration.zero);
+                            unawaited(widget.player.play());
+                          }
+                        } : null,
+                        icon: Icon(playing ? Icons.pause_rounded : Icons.play_arrow_rounded),
+                      ),
                     ),
+                    const SizedBox(width: 10),
+                    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(widget.title, maxLines: 1, overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700)),
+                      Text('${_time(position)} / ${_time(duration)}',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant)),
+                    ])),
+                    const Icon(Icons.graphic_eq_rounded, size: 20),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text(_time(position)),
-                    Expanded(
-                      child: Slider(
+                SizedBox(height: 32, child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(trackHeight: 3, thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6)),
+                  child: Slider(
                         min: 0,
                         max: ready ? duration.inMilliseconds.toDouble() : 1,
                         value: ready
@@ -87,11 +98,8 @@ class _AudioPlayerBarState extends State<AudioPlayerBar> {
                             ? (value) => widget.player
                                 .seek(Duration(milliseconds: value.round()))
                             : null,
-                      ),
-                    ),
-                    Text(_time(duration)),
-                  ],
-                ),
+                  ),
+                )),
               ],
             ),
           ),

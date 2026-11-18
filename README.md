@@ -7,9 +7,9 @@ I built Abune Zebesemayat to make Ethiopian Orthodox prayers easier to read, hea
 ## What the app offers
 
 - **Read:** See the full text of all three prayers in a clear, scrollable layout.
-- **Listen:** Switch between the recordings. Abune Zebesemayat and Beselame Gebriel have audio synced line highlighting; Sibhat has a compact line reader you advance while listening. The opening invocation for Abune remains in Read because it is not spoken in that recording.
+- **Listen:** Switch between the recordings and follow the spoken line automatically in a compact reader. Sibhat includes the three spoken repetitions of its opening line. Tap any line to replay from there. The opening invocation for Abune remains in Read because it is not spoken in that recording.
 - **Practice:** Hide and reveal one line at a time. The app saves learned lines and your place across sessions, with progress shown for each prayer.
-- **Comfort:** Your day or night choice is remembered, and both recordings have playback and seeking controls.
+- **Settings:** Choose System, Day, or Night theme. Your choice is remembered. Both recordings have playback and seeking controls, and you can fine-tune a line's timing in Settings if needed.
 
 ## Download for Android
 
@@ -40,14 +40,14 @@ The [Android workflow](.github/workflows/android.yml) builds signed, ARM-specifi
 | [`lib/app/abune_app.dart`](lib/app/abune_app.dart) | Connects navigation, theme, and playback. |
 | [`lib/data/prayers.dart`](lib/data/prayers.dart) | Holds the prayer collection. |
 | [`lib/data/sibhat_prayer.dart`](lib/data/sibhat_prayer.dart) | Holds Sibhat text checked against an Ethiopian Orthodox prayer source. |
-| [`lib/data/audio_cues.dart`](lib/data/audio_cues.dart) | Matches spoken lines to recording time. |
-| [`lib/screens/`](lib/screens/) | Read, Listen, Practice, and legal screens. |
-| [`lib/widgets/`](lib/widgets/) | Shared audio controls and the About dialog. |
+| [`lib/data/audio_cues.dart`](lib/data/audio_cues.dart), [`lib/data/sibhat_audio_cues.dart`](lib/data/sibhat_audio_cues.dart) | Match spoken lines to recording time. |
+| [`lib/screens/`](lib/screens/) | Read, Listen, Practice, Settings, and legal screens. |
+| [`lib/widgets/`](lib/widgets/) | Shared navigation, audio controls, ornament, and the About dialog. |
 | [`lib/services/cue_store.dart`](lib/services/cue_store.dart) | Saves optional timing adjustments on the device. |
 | [`lib/services/study_store.dart`](lib/services/study_store.dart) | Saves learning progress and your place. |
 | [`lib/theme/app_theme.dart`](lib/theme/app_theme.dart) | Light and dark visual styles. |
 
-Sibhat's Geʽez wording was checked against the [Medhanie Alem Ethiopian Orthodox Tewahedo Church prayer page](https://sites.google.com/site/medhanialemgrandrapids/prayers). If a listener adjusts the original recording's timing in Listen, those timestamps are saved on their device.
+Sibhat's Geʽez wording was checked against the [Medhanie Alem Ethiopian Orthodox Tewahedo Church prayer page](https://sites.google.com/site/medhanialemgrandrapids/prayers). I aligned its bundled recording to the text and included those cue times in the app. If a listener adjusts a line's timing in Settings, that adjustment is saved on their device.
 
 ## Privacy and terms
 

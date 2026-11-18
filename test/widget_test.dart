@@ -40,12 +40,12 @@ void main() {
 
   testWidgets('switches the theme', (tester) async {
     await tester.pumpWidget(app());
-    final startsLight = find.byIcon(Icons.dark_mode).evaluate().isNotEmpty;
-    await tester.tap(find.byTooltip('Toggle Day/Night Mode'));
+    await tester.tap(find.text('Settings'));
     await tester.pumpAndSettle();
-
-    expect(find.byIcon(startsLight ? Icons.light_mode : Icons.dark_mode),
-        findsOneWidget);
+    await tester.tap(find.text('Night'));
+    await tester.pumpAndSettle();
+    expect(Theme.of(tester.element(find.text('Night'))).brightness,
+        Brightness.dark);
   });
 
   testWidgets('opens follow-along for both prayers', (tester) async {
@@ -55,9 +55,7 @@ void main() {
 
     expect(find.text('Listen and follow'), findsOneWidget);
     expect(find.text('LINE 1 OF 20'), findsOneWidget);
-    await tester.drag(find.byType(ListView), const Offset(0, -250));
-    await tester.pumpAndSettle();
-    expect(find.text('Adjust timing'), findsOneWidget);
+    expect(find.text('Repeat line'), findsOneWidget);
   });
 
   testWidgets('opens the Sibhat recording and text', (tester) async {
@@ -67,9 +65,19 @@ void main() {
     await tester.tap(find.text('Sibhat'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Listen and read'), findsOneWidget);
-    expect(find.text('LINE 1 OF 33'), findsOneWidget);
+    expect(find.text('Listen and follow'), findsOneWidget);
+    expect(find.text('LINE 1 OF 35'), findsOneWidget);
     expect(find.textContaining('ስብሐት ለአብ'), findsWidgets);
+  });
+
+  testWidgets('keeps timing controls in Settings', (tester) async {
+    await tester.pumpWidget(app());
+    await tester.tap(find.text('Settings'));
+    await tester.pumpAndSettle();
+    expect(find.text('Audio timing'), findsOneWidget);
+    await tester.tap(find.text('Sibhat Tselot'));
+    await tester.pumpAndSettle();
+    expect(find.text('Adjust line timing'), findsOneWidget);
   });
 
   testWidgets('practice hides, reveals, and tracks a line', (tester) async {

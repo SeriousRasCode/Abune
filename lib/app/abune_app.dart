@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/sibhat_audio_cues.dart';
 import '../screens/practice_screen.dart';
 import '../screens/follow_along_screen.dart';
 import '../screens/reading_screen.dart';
-import '../screens/sibhat_listen_screen.dart';
+import '../screens/settings_screen.dart';
 import '../services/cue_store.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_about_dialog.dart';
+import '../widgets/app_bottom_navigation.dart';
 import '../widgets/audio_player_bar.dart';
 
 class AbuneApp extends StatefulWidget {
@@ -30,6 +32,7 @@ class _AbuneAppState extends State<AbuneApp> {
   final SharedPreferencesAsync _prefs = SharedPreferencesAsync();
   int _tab = 0;
   int _recording = 0;
+  int _timingRevision = 0;
 
   @override
   void initState() {
@@ -67,9 +70,8 @@ class _AbuneAppState extends State<AbuneApp> {
     }
   }
 
-  void _toggleTheme(Brightness brightness) {
-    final isDark = brightness == Brightness.dark;
-    setState(() => _themeMode = isDark ? ThemeMode.light : ThemeMode.dark);
+  void _setTheme(ThemeMode mode) {
+    setState(() => _themeMode = mode);
     unawaited(_prefs.setString('theme_mode_v1', _themeMode.name)
         .catchError((Object _) {}));
   }
@@ -100,13 +102,6 @@ class _AbuneAppState extends State<AbuneApp> {
           appBar: AppBar(
             title: const Text('አቡነ ዘበሰማያት'),
             actions: [
-              IconButton(
-                tooltip: 'Toggle Day/Night Mode',
-                onPressed: () => _toggleTheme(Theme.of(context).brightness),
-                icon: Icon(Theme.of(context).brightness == Brightness.dark
-                    ? Icons.light_mode
-                    : Icons.dark_mode),
-              ),
               IconButton(
                 tooltip: 'About',
                 onPressed: () => showDialog<void>(
@@ -141,29 +136,38 @@ class _AbuneAppState extends State<AbuneApp> {
                 Expanded(child: IndexedStack(
                   index: _recording,
                   children: [
-                    FollowAlongScreen(player: _player, cueStore: widget.cueStore),
-                    const SibhatListenScreen(),
+                    FollowAlongScreen(player: _player, cueStore: widget.cueStore,
+                      reloadToken: _timingRevision),
+                    FollowAlongScreen(player: _sibhatPlayer,
+                      title: 'Sibhat Tselot', lines: sibhatRecordedLines,
+                      cues: sibhatCueMilliseconds, cueKey: 'sibhat_audio_cues_v1',
+                      reloadToken: _timingRevision),
                   ],
                 )),
               ]),
               const PracticeScreen(),
+              SettingsScreen(
+                themeMode: _themeMode,
+                onThemeChanged: _setTheme,
+                abunePlayer: _player,
+                sibhatPlayer: _sibhatPlayer,
+                abuneCueStore: widget.cueStore,
+                onTimingChanged: () => setState(() => _timingRevision++),
+              ),
             ],
           ),
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AudioPlayerBar(
-                key: ValueKey(_recording),
-                player: _recording == 0 ? _player : _sibhatPlayer,
-              ),
-              NavigationBar(
+              if (_tab == 1)
+                AudioPlayerBar(
+                  key: ValueKey(_recording),
+                  player: _recording == 0 ? _player : _sibhatPlayer,
+                  title: _recording == 0 ? 'Abune & Gebriel' : 'Sibhat Tselot',
+                ),
+              AppBottomNavigation(
                 selectedIndex: _tab,
-                onDestinationSelected: (index) => setState(() => _tab = index),
-                destinations: const [
-                  NavigationDestination(icon: Icon(Icons.menu_book), label: 'Read'),
-                  NavigationDestination(icon: Icon(Icons.hearing), label: 'Listen'),
-                  NavigationDestination(icon: Icon(Icons.school), label: 'Practice'),
-                ],
+                onSelected: (index) => setState(() => _tab = index),
               ),
             ],
           ),
