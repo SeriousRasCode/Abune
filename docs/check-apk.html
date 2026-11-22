@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Check Abune APK</title>
+  <style>
+    body { margin: 0; background: #f8f4ea; color: #12324a; font: 1rem/1.5 system-ui, sans-serif; }
+    main { max-width: 38rem; margin: auto; padding: 1.5rem 1rem; }
+    h1 { margin: 0 0 .5rem; }
+    .card { background: white; border: 1px solid #dfd7c9; border-radius: 16px; padding: 1rem; }
+    input { display: block; margin: 1rem 0; max-width: 100%; }
+    #result { white-space: pre-wrap; overflow-wrap: anywhere; }
+    a { color: #7b3438; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Check your Abune APK</h1>
+  <p>Choose the APK already in your phone's Downloads folder. This page checks it on your phone; the file is never uploaded.</p>
+  <div class="card">
+    <label for="apk">APK file</label>
+    <input id="apk" type="file">
+    <div id="result" role="status" aria-live="polite">Waiting for a file.</div>
+  </div>
+  <p><a href="https://github.com/SeriousRasCode/Abune/releases">GitHub releases</a></p>
+</main>
+<script>
+  const known = new Map([
+    ['b12b82f669a780ea67da9065efeff13808058586e6937aefdd63aaa341cebc8d', 'v1.4.0 build 44, arm64'],
+    ['35016fa88686eb2515b3956a1450f1be31900c462e73d69849b3c5bd3ecd09c5', 'v1.4.0 build 46, arm64'],
+  ]);
+  const input = document.querySelector('#apk');
+  const result = document.querySelector('#result');
+  input.addEventListener('change', async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    result.textContent = `Checking ${file.name} (${file.size.toLocaleString()} bytes)…`;
+    try {
+      const digest = await crypto.subtle.digest('SHA-256', await file.arrayBuffer());
+      const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+      const release = known.get(hash);
+      result.textContent = release
+        ? `File intact: ${release}.\nSize: ${file.size.toLocaleString()} bytes.\nSHA-256: ${hash}\n\nThe installation failure is happening on the phone; this APK matches the published release.`
+        : `This file does not match the published arm64 APKs.\nSize: ${file.size.toLocaleString()} bytes.\nSHA-256: ${hash}\n\nThe download may be incomplete or changed. Keep the previous working version until you can download again.`;
+    } catch (error) {
+      result.textContent = `Could not check the file: ${error.message}`;
+    }
+  });
+</script>
+</body>
+</html>
